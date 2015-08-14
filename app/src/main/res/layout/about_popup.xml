@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:background="@color/accent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/about_message"
+            android:id="@+id/about_title"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="30dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/about_version"
+            android:id="@+id/about_version"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/about_blurb"
+            android:id="@+id/about_blurb"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/website"
+            android:id="@+id/btn_website"
+            android:layout_gravity="center_horizontal"
+            android:onClick="goToWebsite"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/twitter"
+            android:id="@+id/btn_twitter"
+            android:layout_gravity="center_horizontal"
+            android:onClick="goToTwitter"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rate"
+            android:id="@+id/btn_rate"
+            android:layout_gravity="center_horizontal"
+            android:onClick="goToRate"
+            android:textColor="@android:color/white"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/close"
+            android:id="@+id/btn_close"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/about_copyright"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:gravity="center"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    </ScrollView>

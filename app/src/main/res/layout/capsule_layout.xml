@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/capsule_shadow"
+    android:id="@+id/base_capsule">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/capsule_actions"
+        android:background="@color/accent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/capsule_number"
+            android:textColor="@android:color/white"
+            android:paddingLeft="@dimen/capsule_number_padding"
+            android:editable="true"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/remove"
+            android:src="@drawable/ic_delete_white_18dp"
+            android:background="@color/accent"
+            android:contentDescription="@string/remove_description"
+            android:focusable="true"
+            android:onClick="Remove"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="3dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/input"
+        android:paddingTop="2dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="5dp"
+        android:weightSum="1"
+        android:background="@android:color/white">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/weight"
+            android:hint="@string/percent_weight"
+            android:editable="true"
+            android:textIsSelectable="false"
+            android:layout_weight="0.28"
+            android:nextFocusDown="@+id/mark"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/percent"
+            android:id="@+id/percent"
+            android:textSize="25sp"
+            android:gravity="bottom"
+            android:layout_weight="0.14"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/mark"
+            android:hint="@string/student_mark"
+            android:editable="true"
+            android:layout_weight="0.27"
+            android:nextFocusDown="@+id/total"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/slash"
+            android:id="@+id/slash"
+            android:textSize="25sp"
+            android:elegantTextHeight="false"
+            android:autoText="false"
+            android:singleLine="false"
+            android:paddingLeft="5dp"
+            android:gravity="bottom"
+            android:layout_weight="0.02"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/total"
+            android:hint="@string/total_marks"
+            android:editable="true"
+            android:layout_weight="0.27"
+            android:imeOptions="actionDone"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</LinearLayout>

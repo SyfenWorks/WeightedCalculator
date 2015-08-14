@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Weighted Calc</string>
+
+    <string name="percent_weight">Weight</string>
+    <string name="student_mark">Mark</string>
+    <string name="total_marks">Total</string>
+    <string name="slash">/</string>
+    <string name="percent">%</string>
+    <string name="finalPercent">Final</string>
+    <string name="calculate">Calculate</string>
+
+    <string name="add">Add</string>
+
+    <string name="reset">Reset</string>
+    <string name="remove_description">Remove</string>
+    <string name="reset_title">Reset?</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_message">All fields will be erased.</string>
+
+    <string name="action_about">About</string>
+    <string name="about_message">Weighted Calculator\n by Syfen Works</string>
+    <string name="about_version">Version 1.0.1</string>
+    <string name="about_blurb">Thank you for downloading the Weighted Calculator!
+        If you have any questions or concerns, please email syfen.works@gmail.com.\n
+        \nUsing Weighted Calculator, you can calculate a weighted average or calculate the mark you need for the final grade you want.</string>
+    <string name="website">Website</string>
+    <string name="twitter">Follow us on Twitter</string>
+    <string name="rate">Rate this app</string>
+    <string name="close">Close</string>
+    <string name="about_copyright">Copyright © 2015</string>
+
+    <string name="action_exit">Exit</string>
+
+    <string name="weighting_alert_toast">Please fill in all weightings</string>
+    <string name="mark_final_alert_toast">Please fill in all marks or the final grade</string>
+    <string name="total_alert_toast">Please fill in all totals</string>
+    <string name="total_zero_toast">Totals cannot be zero</string>
+
+</resources>
