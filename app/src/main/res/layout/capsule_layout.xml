@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/capsule_shadow"
     android:id="@+id/base_capsule">
@@ -17,8 +18,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/capsule_number"
             android:textColor="@android:color/white"
-            android:paddingLeft="@dimen/capsule_number_padding"
-            android:editable="true"/>
+            android:paddingLeft="@dimen/capsule_number_padding"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -49,10 +49,10 @@
             android:contentDescription="@string/remove_description"
             android:focusable="true"
             android:onClick="Remove"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="3dp"/>
+            android:paddingTop="@dimen/capsule_remove_vertical_padding"
+            android:paddingBottom="@dimen/capsule_remove_vertical_padding"
+            android:paddingLeft="@dimen/capsule_remove_left_padding"
+            android:paddingRight="@dimen/capsule_remove_right_padding"/>
 
     </LinearLayout>
 
@@ -60,9 +60,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/input"
-        android:paddingTop="2dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="5dp"
+        android:paddingTop="@dimen/capsule_input_top_padding"
+        android:paddingBottom="@dimen/capsule_input_bottom_padding"
+        android:paddingLeft="@dimen/capsule_side_padding"
+        android:paddingRight="@dimen/capsule_side_padding"
         android:weightSum="1"
         android:background="@android:color/white">
 
@@ -73,7 +74,6 @@
             android:ems="10"
             android:id="@+id/weight"
             android:hint="@string/percent_weight"
-            android:editable="true"
             android:textIsSelectable="false"
             android:layout_weight="0.28"
             android:nextFocusDown="@+id/mark"
@@ -95,7 +95,6 @@
             android:ems="10"
             android:id="@+id/mark"
             android:hint="@string/student_mark"
-            android:editable="true"
             android:layout_weight="0.27"
             android:nextFocusDown="@+id/total"
             android:textSize="18sp"/>
@@ -106,10 +105,9 @@
             android:text="@string/slash"
             android:id="@+id/slash"
             android:textSize="25sp"
-            android:elegantTextHeight="false"
-            android:autoText="false"
             android:singleLine="false"
-            android:paddingLeft="5dp"
+            android:paddingLeft="@dimen/capsule_slash_padding"
+            android:paddingRight="@dimen/capsule_slash_padding"
             android:gravity="bottom"
             android:layout_weight="0.02"/>
 
@@ -120,7 +118,6 @@
             android:ems="10"
             android:id="@+id/total"
             android:hint="@string/total_marks"
-            android:editable="true"
             android:layout_weight="0.27"
             android:imeOptions="actionDone"
             android:textSize="18sp"/>

@@ -31,7 +31,6 @@ import android.net.Uri;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-//TODO delay to edit on focus
 //TODO about activity
 
 public class MainActivity extends ActionBarActivity {

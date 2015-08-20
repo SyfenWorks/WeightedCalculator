@@ -3,7 +3,18 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="calculate_vertical_margin">14dp</dimen>
+
     <dimen name="capsule_number_padding">3dp</dimen>
     <dimen name="capsule_label_top_padding">1dp</dimen>
     <dimen name="capsule_label_side_padding">10dp</dimen>
+    <dimen name="capsule_side_padding">3dp</dimen>
+    <dimen name="capsule_slash_padding">3dp</dimen>
+
+    <dimen name="capsule_remove_vertical_padding">2dp</dimen>
+    <dimen name="capsule_remove_left_padding">12dp</dimen>
+    <dimen name="capsule_remove_right_padding">6dp</dimen>
+
+    <dimen name="capsule_input_top_padding">1dp</dimen>
+    <dimen name="capsule_input_bottom_padding">6dp</dimen>
 </resources>
