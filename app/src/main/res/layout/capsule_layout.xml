@@ -20,6 +20,21 @@
             android:paddingLeft="@dimen/capsule_number_padding"
             android:editable="true"/>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/label"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:hint="@string/label"
+            android:singleLine="true"
+            android:maxLength="15"
+            android:background="#00000000"
+            android:paddingTop="@dimen/capsule_label_top_padding"
+            android:paddingLeft="@dimen/capsule_label_side_padding"
+            android:paddingRight="@dimen/capsule_label_side_padding"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
