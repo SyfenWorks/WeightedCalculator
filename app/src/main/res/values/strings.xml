@@ -20,7 +20,7 @@
     <string name="cancel">Cancel</string>
     <string name="reset_message">All fields will be erased.</string>
 
-    <string name="action_about">About</string>
+    <string name="about">About</string>
     <string name="about_title">Weighted Calculator\n by Syfen Works</string>
     <string name="about_version">Version 1.1.0</string>
     <string name="about_blurb">Thank you for downloading the Weighted Calculator!
@@ -32,7 +32,14 @@
     <string name="close">Close</string>
     <string name="about_copyright">Copyright © 2015</string>
 
-    <string name="action_exit">Exit</string>
+    <string name="help">Help</string>
+    <string name="help_content"><b>Calculate a Weighted Average</b>
+        \nFill in all fields, but leave the final mark empty, and hit the <i>Calculate</i> button to get a weighted average.
+
+        \n\n<b>Reverse Calculate a Mark</b>
+        \nFill in all fields, including the final mark, and leave one <i>Mark</i> field empty.
+        Hit the <i>Calculate</i> button to get the mark you need for the final average you want.
+    </string>
 
     <string name="weighting_alert_toast">Please fill in all weightings</string>
     <string name="mark_final_alert_toast">Please fill in all marks or the final grade</string>

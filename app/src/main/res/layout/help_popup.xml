@@ -11,7 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:background="@color/accent"
-        android:id="@+id/about_scroll"
+        android:id="@+id/help_scroll"
         android:layout_above="@+id/close_layout">
 
         <LinearLayout
@@ -25,21 +25,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/about_title"
-                android:id="@+id/about_title"
+                android:text="@string/help"
+                android:id="@+id/help_title"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/about_title_top_padding"
-                android:gravity="center"
-                android:textColor="@android:color/white"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/about_version"
-                android:id="@+id/about_version"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/about_version_top_padding"
+                android:paddingTop="@dimen/help_title_top_padding"
                 android:gravity="center"
                 android:textColor="@android:color/white"/>
 
@@ -47,41 +36,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="@string/about_blurb"
-                android:id="@+id/about_blurb"
+                android:text="@string/help_content"
+                android:id="@+id/help_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="@dimen/about_blurb_top_padding"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/about_filler_padding"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/website"
-                android:id="@+id/btn_website"
-                android:layout_gravity="center_horizontal"
-                android:onClick="goToWebsite"
-                android:textColor="@android:color/white"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/twitter"
-                android:id="@+id/btn_twitter"
-                android:layout_gravity="center_horizontal"
-                android:onClick="goToTwitter"
-                android:textColor="@android:color/white"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/rate"
-                android:id="@+id/btn_rate"
-                android:layout_gravity="center_horizontal"
-                android:onClick="goToRate"
-                android:textColor="@android:color/white"/>
         </LinearLayout>
 
     </ScrollView>

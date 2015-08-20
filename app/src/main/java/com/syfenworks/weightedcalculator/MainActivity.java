@@ -71,6 +71,7 @@ public class MainActivity extends ActionBarActivity {
         error_toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
     }
 
+    ///////////////////////////////////////////////////////////////////
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,21 +95,15 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_about:
                 About();
                 return true;
-            case R.id.action_exit:
-                finish();
+            case R.id.action_help:
+                Help();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
-    }
+    ///////////////////////////////////////////////////////////////////
 
     void Reset() {
         ResetDialog resetDialog = new ResetDialog();
@@ -141,6 +136,25 @@ public class MainActivity extends ActionBarActivity {
 
             return builder.create();
         }
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    void Help() {
+        final View popup_view = getLayoutInflater().inflate(R.layout.help_popup, new LinearLayout(getApplicationContext()), true);
+        final PopupWindow help_popup = new PopupWindow(popup_view,
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        help_popup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accent)));
+        help_popup.setFocusable(true);
+        help_popup.showAtLocation(findViewById(R.id.no_focus), Gravity.CENTER, 0, 0);
+
+        Button btn_close = (Button)popup_view.findViewById(R.id.btn_close);
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                help_popup.dismiss();
+            }
+        });
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -243,6 +257,8 @@ public class MainActivity extends ActionBarActivity {
         //Remove from view
         linearLayout.removeView(parent_view);
     }
+
+    ///////////////////////////////////////////////////////////////////
 
     void Calculate() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
@@ -374,6 +390,8 @@ public class MainActivity extends ActionBarActivity {
         DecimalFormat twoDecimals = new DecimalFormat("#.##");
         return Double.valueOf(twoDecimals.format(mark));
     }
+
+    ///////////////////////////////////////////////////////////////////
 
     //Hides the soft keyboard
     private void hideKeyboard() {
