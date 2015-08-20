@@ -45,19 +45,16 @@ public class MainActivity extends ActionBarActivity {
         //Default two capsules
         AddCapsule();
         AddCapsule();
+        //Give focus to the first capsule label
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+        linearLayout.getChildAt(0).requestFocus();
 
         //When the layout is touched, remove focus and keyboard
-        final RelativeLayout noFocus = (RelativeLayout) findViewById(R.id.noFocus);
-        noFocus.setOnClickListener(new View.OnClickListener() {
+        final RelativeLayout no_focus = (RelativeLayout) findViewById(R.id.no_focus);
+        no_focus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View current = getCurrentFocus();
-                if (current!=null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(current.getWindowToken(), 0);
-
-                    current.clearFocus();
-                }
+                hideKeyboard();
             }
         });
 
@@ -149,13 +146,17 @@ public class MainActivity extends ActionBarActivity {
     ///////////////////////////////////////////////////////////////////
 
     void About() {
+        hideKeyboard();
+
+        //Inflate the About popup
         final View popup_view = getLayoutInflater().inflate(R.layout.about_popup, new LinearLayout(getApplicationContext()), true);
         final PopupWindow about_popup = new PopupWindow(popup_view,
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         about_popup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accent)));
         about_popup.setFocusable(true);
-        about_popup.showAtLocation(findViewById(R.id.noFocus), Gravity.CENTER, 0, 0);
+        about_popup.showAtLocation(findViewById(R.id.no_focus), Gravity.CENTER, 0, 0);
 
+        //Listen for the Close button press and dismiss popup
         Button btn_close = (Button)popup_view.findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +171,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void goToTwitter(View view) {
-        goToUrl ("https://twitter.com/SyfenWorks");
+        goToUrl("https://twitter.com/SyfenWorks");
     }
 
     public void goToRate(View view) {
@@ -197,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
     void AddCapsule() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         View capsuleLayout = inflater.inflate(R.layout.capsule_layout, new LinearLayout(getApplicationContext()), true);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.marks_list);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
         linearLayout.addView(capsuleLayout);
 
         capsuleList.add(capsuleLayout);
@@ -205,15 +206,17 @@ public class MainActivity extends ActionBarActivity {
         textView.setText(String.valueOf(capsuleList.size()));
 
         //Scroll to bottom
-        ScrollView scrollView = (ScrollView)findViewById(R.id.marks_scroll);
+        capsuleList.get(capsuleList.size()-1).findViewById(R.id.weight).requestFocus();
+        final ScrollView scrollView = (ScrollView)findViewById(R.id.capsules_scroll);
         scrollView.scrollTo(0, scrollView.getBottom());
-        capsuleList.get(capsuleList.size()-1).requestFocus();
     }
 
     public void Remove(View view) {
+        hideKeyboard();
+
         //Get the capsule and list
         View parent_view = (View) view.getParent().getParent().getParent();
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.marks_list);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
 
         //Loop through following capsules and decrement number
         TextView textView = (TextView)parent_view.findViewById(R.id.capsule_number);
@@ -222,6 +225,15 @@ public class MainActivity extends ActionBarActivity {
             LinearLayout temp_layout = (LinearLayout) linearLayout.getChildAt(i);
             TextView temp_textView = (TextView)temp_layout.findViewById(R.id.capsule_number);
             temp_textView.setText(Integer.toString(i));
+        }
+
+        //Set focus to the capsule above the removed capsule (the removed capsule is at loop_start_index - 1)
+        if (loop_start_index != 1) {
+            linearLayout.getChildAt(loop_start_index - 2).findViewById(R.id.weight).requestFocus();
+        }
+        //If the first capsule is removed, try to set the focus to the capsule below
+        else if (capsuleList.size() > 1) {
+            linearLayout.getChildAt(loop_start_index).findViewById(R.id.weight).requestFocus();
         }
 
         //Remove from capsule list
@@ -233,7 +245,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     void Calculate() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.marks_list);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
         EditText final_editText = (EditText)findViewById(R.id.finalMark);
         double final_mark = 0;
         double total_weight = 0;
@@ -357,9 +369,18 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    //Rounds to two decimals
     double roundTwoDecimals(double mark) {
-        //Rounds to two decimals
         DecimalFormat twoDecimals = new DecimalFormat("#.##");
         return Double.valueOf(twoDecimals.format(mark));
+    }
+
+    //Hides the soft keyboard
+    private void hideKeyboard() {
+        View current = getCurrentFocus();
+        if (current != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(current.getWindowToken(), 0);
+        }
     }
 }
