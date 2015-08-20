@@ -32,8 +32,8 @@
         android:layout_alignParentEnd="true"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/calculate_vertical_margin"
-        android:paddingBottom="@dimen/calculate_vertical_margin"
+        android:paddingTop="@dimen/calculate_top_margin"
+        android:paddingBottom="@dimen/calculate_bottom_margin"
         android:background="@drawable/background_with_shadow"
         android:weightSum="1">
 
