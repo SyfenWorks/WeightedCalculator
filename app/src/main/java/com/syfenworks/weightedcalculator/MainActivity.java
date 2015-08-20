@@ -153,7 +153,7 @@ public class MainActivity extends ActionBarActivity {
         final View popup_view = getLayoutInflater().inflate(R.layout.about_popup, new LinearLayout(getApplicationContext()), true);
         final PopupWindow about_popup = new PopupWindow(popup_view,
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        about_popup.setBackgroundDrawable(new ColorDrawable(R.color.accent));
+        about_popup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accent)));
         about_popup.setFocusable(true);
         about_popup.showAtLocation(findViewById(R.id.noFocus), Gravity.CENTER, 0, 0);
 
