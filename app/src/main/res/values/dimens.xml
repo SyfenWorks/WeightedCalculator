@@ -23,7 +23,7 @@
 
     <dimen name="help_title_top_padding">25dp</dimen>
 
-    <dimen name="about_title_top_padding">10dp</dimen>
+    <dimen name="about_title_top_padding">15dp</dimen>
     <dimen name="about_version_top_padding">10dp</dimen>
     <dimen name="about_blurb_top_padding">20dp</dimen>
     <dimen name="about_filler_padding">30dp</dimen>

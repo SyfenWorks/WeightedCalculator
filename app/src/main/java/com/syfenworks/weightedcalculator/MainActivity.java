@@ -139,6 +139,9 @@ public class MainActivity extends ActionBarActivity {
     ///////////////////////////////////////////////////////////////////
 
     void Help() {
+        hideKeyboard();
+
+        //Inflate the Help popup
         final View popup_view = getLayoutInflater().inflate(R.layout.help_popup, new LinearLayout(getApplicationContext()), true);
         final PopupWindow help_popup = new PopupWindow(popup_view,
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
@@ -146,6 +149,7 @@ public class MainActivity extends ActionBarActivity {
         help_popup.setFocusable(true);
         help_popup.showAtLocation(findViewById(R.id.no_focus), Gravity.CENTER, 0, 0);
 
+        //Listen for the Close button press to dismiss popup
         Button btn_close = (Button)popup_view.findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +172,7 @@ public class MainActivity extends ActionBarActivity {
         about_popup.setFocusable(true);
         about_popup.showAtLocation(findViewById(R.id.no_focus), Gravity.CENTER, 0, 0);
 
-        //Listen for the Close button press and dismiss popup
+        //Listen for the Close button press to dismiss popup
         Button btn_close = (Button)popup_view.findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
