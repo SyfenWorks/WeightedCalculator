@@ -42,6 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
+            android:digits="0123456789."
             android:ems="10"
             android:id="@+id/finalMark"
             android:hint="@string/finalPercent"
