@@ -31,8 +31,6 @@ import android.net.Uri;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-//TODO about activity
-
 public class MainActivity extends ActionBarActivity {
     private final ArrayList<View> capsuleList = new ArrayList<>();
     private Toast error_toast;
@@ -181,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void goToWebsite(View view) {
-        goToUrl ("https://syfenworks.blogspot.com");
+        goToUrl("https://syfenworks.blogspot.com");
     }
 
     public void goToTwitter(View view) {
@@ -268,9 +266,10 @@ public class MainActivity extends ActionBarActivity {
         boolean reverse_calculation = false;
         double reverse_final = 0;
         double reverse_total = 100;
+        boolean reverse_total_default = true;
         double reverse_weighting = 0;
         EditText reverse_mark_editText = null;
-        EditText reverse_mark_editTotal = null;
+        EditText reverse_total_editText = null;
 
         //Loop through each capsule
         //Get total weight
@@ -336,14 +335,14 @@ public class MainActivity extends ActionBarActivity {
                     reverse_mark_editText = temp_mark;
 
                     EditText temp_total = (EditText)temp_layout.findViewById(R.id.total);
-                    reverse_mark_editTotal = temp_total;
+                    reverse_total_editText = temp_total;
 
                     //Check if total is filled in
                     if (temp_total.getText().toString().length() > 0
                             && !temp_total.getText().toString().equals(".")) {
                         //Change reverse total from default and record the weighting
+                        reverse_total_default = false;
                         double total_value = Double.parseDouble(temp_total.getText().toString());
-
 
                         if (total_value > 0) {
                             reverse_total = total_value;
@@ -356,8 +355,7 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
 
-                    double weighting_value = Double.parseDouble(temp_weighting.getText().toString());
-                    reverse_weighting = weighting_value;
+                    reverse_weighting = Double.parseDouble(temp_weighting.getText().toString());
                 }
                 else {
                     error_toast.setText(R.string.mark_final_alert_toast);
@@ -368,16 +366,20 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        //Display rounded final mark or reverse calculation mark
+        //Display rounded reverse calculation mark
         if (reverse_calculation) {
             double reverse_mark = (reverse_final / 100) - (final_mark);
             reverse_mark = (reverse_mark / (reverse_weighting / total_weight)) * reverse_total;
             reverse_mark = roundTwoDecimals(reverse_mark);
 
             reverse_mark_editText.setText(Double.toString(reverse_mark));
-            reverse_mark_editTotal.setText(Double.toString(reverse_total));
+            //Set the total to 100 if it is not filled in
+            if (reverse_total_default) {
+                reverse_total_editText.setText(Double.toString(reverse_total));
+            }
             reverse_mark_editText.requestFocus();
         }
+        //Display rounded final mark
         else {
             final_mark = final_mark * 100;
             final_mark = roundTwoDecimals(final_mark);
