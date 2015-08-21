@@ -44,7 +44,7 @@
             android:inputType="numberDecimal"
             android:digits="0123456789."
             android:ems="10"
-            android:id="@+id/finalMark"
+            android:id="@+id/final_mark"
             android:hint="@string/finalPercent"
             android:textIsSelectable="false"
             android:imeOptions="actionDone"
