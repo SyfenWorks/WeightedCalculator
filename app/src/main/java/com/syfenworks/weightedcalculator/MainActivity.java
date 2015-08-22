@@ -146,12 +146,12 @@ public class MainActivity extends ActionBarActivity {
                 }
                 //Otherwise, the focus is the Final editText
                 else {
-                    writer.write("0");
+                    writer.write("0\n");
                 }
             }
             //If null, record the focus as the Final editText
             else {
-                writer.write("0");
+                writer.write("0\n");
             }
 
             //Record all capsule information
