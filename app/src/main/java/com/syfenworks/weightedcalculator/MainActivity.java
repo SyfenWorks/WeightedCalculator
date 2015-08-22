@@ -49,12 +49,7 @@ public class MainActivity extends ActionBarActivity {
         //If there is no bundle or cached save, set defaults
         File temp_save = new File(getCacheDir(), "temp_save.txt");
         if (savedInstanceState == null && !temp_save.exists()) {
-            //Default two capsules
-            AddCapsule();
-            AddCapsule();
-            //Give focus to the first capsule label
-            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
-            linearLayout.getChildAt(0).requestFocus();
+            setDefaultCapsules();
         }
 
         //When the layout is touched, remove focus and keyboard
@@ -77,6 +72,17 @@ public class MainActivity extends ActionBarActivity {
 
         //Make the global toast
         error_toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    void setDefaultCapsules() {
+        //Default two capsules
+        AddCapsule();
+        AddCapsule();
+        //Give focus to the first capsule label
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+        linearLayout.getChildAt(0).requestFocus();
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -288,14 +294,27 @@ public class MainActivity extends ActionBarActivity {
     ///////////////////////////////////////////////////////////////////
 
     void Reset() {
-        ResetDialog resetDialog = new ResetDialog();
+        ResetDialog resetDialog = ResetDialog.newInstance(capsuleList.size());
         resetDialog.show(getSupportFragmentManager(), "reset");
     }
 
     public static class ResetDialog extends android.support.v4.app.DialogFragment {
+        static ResetDialog newInstance(int numberOfCapsules) {
+            //Put the number of capsules into a bundle for the setArguments method
+            ResetDialog resetDialog = new ResetDialog();
+            Bundle resetInfo = new Bundle();
+            resetInfo.putInt("numberOfCapsules", numberOfCapsules);
+            resetDialog.setArguments(resetInfo);
+
+            return resetDialog;
+        }
+
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            //Retrieve the number of capsules
+            final int capsuleCount = getArguments().getInt("numberOfCapsules");
+
             //Use a builder to create an alert dialog
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.reset_title)
@@ -303,10 +322,19 @@ public class MainActivity extends ActionBarActivity {
                    .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
-                           //Reset
-                           Intent intent = getActivity().getIntent();
-                           getActivity().finish();
-                           startActivity(intent);
+                           //Remove all capsules, starting from the bottom
+                           LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.capsules);
+                           for (int i = capsuleCount - 1; i >= 0; i--) {
+                               LinearLayout capsule_layout = (LinearLayout) linearLayout.getChildAt(i);
+                               ((MainActivity) getActivity()).Remove(capsule_layout.findViewById(R.id.remove));
+                           }
+
+                           //Add two capsules and set the default focus
+                           ((MainActivity) getActivity()).setDefaultCapsules();
+
+                           //Clear Final
+                           EditText final_editText = (EditText) getActivity().findViewById(R.id.final_mark);
+                           final_editText.setText(null);
                        }
                    })
                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
