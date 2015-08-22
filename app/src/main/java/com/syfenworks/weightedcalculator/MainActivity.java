@@ -40,11 +40,15 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
     private final ArrayList<View> capsuleList = new ArrayList<>();
     private Toast error_toast;
+    private boolean onCreateCalled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Set true to signal onResume to load the cached save
+        //Putting the code in onResume into onCreate caused issues
+        onCreateCalled = true;
 
         //When the layout is touched, remove focus and keyboard
         final RelativeLayout no_focus = (RelativeLayout) findViewById(R.id.no_focus);
@@ -183,82 +187,82 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 
-        //If there is no bundle or cached save, set defaults
-        File temp_save = new File(getCacheDir(), "temp_save.txt");
-        if (!temp_save.exists()) {
-            setDefaultCapsules();
-        }
-        else {
-            //Otherwise, read the temporary save file
-            try {
-                //Remove all capsules to prevent duplicates in certain lifecycle scenarios
-                //(e.g. home button press, screen lock)
-                removeAll();
+        //Only load the cached save if onCreate was called
+        if (onCreateCalled) {
+            //Reset the boolean to false
+            onCreateCalled = false;
+            //If there is no bundle or cached save, set defaults
+            File temp_save = new File(getCacheDir(), "temp_save.txt");
+            if (!temp_save.exists()) {
+                setDefaultCapsules();
+            } else {
+                //Otherwise, read the temporary save file
+                try {
+                    //Create the reader
+                    BufferedReader reader = new BufferedReader(new FileReader(temp_save));
 
-                //Create the reader
-                BufferedReader reader = new BufferedReader(new FileReader(temp_save));
+                    //Read in the number of capsules and the code that expresses the focused view
+                    int capsule_list_size = Integer.parseInt(reader.readLine());
+                    String current_focus_code = reader.readLine();
 
-                //Read in the number of capsules and the code that expresses the focused view
-                int capsule_list_size = Integer.parseInt(reader.readLine());
-                String current_focus_code = reader.readLine();
+                    //Loop through each capsule, populating its fields
+                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+                    for (int i = 0; i < capsule_list_size; i++) {
+                        //Add a capsule
+                        AddCapsule();
+                        //Find the capsule at i
+                        LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(i);
 
-                //Loop through each capsule, populating its fields
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
-                for (int i = 0; i < capsule_list_size; i++) {
-                    //Add a capsule
-                    AddCapsule();
-                    //Find the capsule at i
-                    LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(i);
-
-                    //Read and add the label
-                    EditText temp_label = (EditText) temp_capsule.findViewById(R.id.label);
-                    temp_label.setText(reader.readLine());
-                    //Read and add the weighting
-                    EditText temp_weighting = (EditText) temp_capsule.findViewById(R.id.weight);
-                    temp_weighting.setText(reader.readLine());
-                    //Read and add the mark
-                    EditText temp_mark = (EditText) temp_capsule.findViewById(R.id.mark);
-                    temp_mark.setText(reader.readLine());
-                    //Read and add the total
-                    EditText temp_total = (EditText) temp_capsule.findViewById(R.id.total);
-                    temp_total.setText(reader.readLine());
-                }
-
-                //Read and add the final
-                EditText temp_final = (EditText) findViewById(R.id.final_mark);
-                temp_final.setText(reader.readLine());
-
-                //Break up the focus code into two strings, a number and a letter
-                String[] current_focus_code_split = current_focus_code.split(" ");
-                //If there is no letter (2nd element of array), the focus is set to Final
-                if (current_focus_code_split.length == 1) {
-                    findViewById(R.id.final_mark).requestFocus();
-                }
-                //Otherwise, find the correct capsule
-                else {
-                    //Get the capsule number
-                    int capsule_number = Integer.parseInt(current_focus_code_split[0]);
-                    //Go to the capsule with that number
-                    LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(capsule_number - 1);
-
-                    //Set focus to the view specified by the focus code letter
-                    switch (current_focus_code_split[1]) {
-                        case "w":
-                            temp_capsule.findViewById(R.id.weight).requestFocus();
-                            break;
-                        case "m":
-                            temp_capsule.findViewById(R.id.mark).requestFocus();
-                            break;
-                        case "t":
-                            temp_capsule.findViewById(R.id.total).requestFocus();
-                            break;
-                        case "l":
-                            temp_capsule.findViewById(R.id.label).requestFocus();
-                            break;
+                        //Read and add the label
+                        EditText temp_label = (EditText) temp_capsule.findViewById(R.id.label);
+                        temp_label.setText(reader.readLine());
+                        //Read and add the weighting
+                        EditText temp_weighting = (EditText) temp_capsule.findViewById(R.id.weight);
+                        temp_weighting.setText(reader.readLine());
+                        //Read and add the mark
+                        EditText temp_mark = (EditText) temp_capsule.findViewById(R.id.mark);
+                        temp_mark.setText(reader.readLine());
+                        //Read and add the total
+                        EditText temp_total = (EditText) temp_capsule.findViewById(R.id.total);
+                        temp_total.setText(reader.readLine());
                     }
+
+                    //Read and add the final
+                    EditText temp_final = (EditText) findViewById(R.id.final_mark);
+                    temp_final.setText(reader.readLine());
+
+                    //Break up the focus code into two strings, a number and a letter
+                    String[] current_focus_code_split = current_focus_code.split(" ");
+                    //If there is no letter (2nd element of array), the focus is set to Final
+                    if (current_focus_code_split.length == 1) {
+                        findViewById(R.id.final_mark).requestFocus();
+                    }
+                    //Otherwise, find the correct capsule
+                    else {
+                        //Get the capsule number
+                        int capsule_number = Integer.parseInt(current_focus_code_split[0]);
+                        //Go to the capsule with that number
+                        LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(capsule_number - 1);
+
+                        //Set focus to the view specified by the focus code letter
+                        switch (current_focus_code_split[1]) {
+                            case "w":
+                                temp_capsule.findViewById(R.id.weight).requestFocus();
+                                break;
+                            case "m":
+                                temp_capsule.findViewById(R.id.mark).requestFocus();
+                                break;
+                            case "t":
+                                temp_capsule.findViewById(R.id.total).requestFocus();
+                                break;
+                            case "l":
+                                temp_capsule.findViewById(R.id.label).requestFocus();
+                                break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
