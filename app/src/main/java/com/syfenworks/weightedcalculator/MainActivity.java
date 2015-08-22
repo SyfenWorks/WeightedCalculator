@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void setDefaultCapsules() {
+    private void setDefaultCapsules() {
         //Default two capsules
         AddCapsule();
         AddCapsule();
@@ -301,7 +301,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void Reset() {
+    private void Reset() {
         ResetDialog resetDialog = new ResetDialog();
         resetDialog.show(getSupportFragmentManager(), "reset");
     }
@@ -341,7 +341,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void Help() {
+    private void Help() {
         hideKeyboard();
 
         //Inflate the Help popup
@@ -364,7 +364,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void About() {
+    private void About() {
         hideKeyboard();
 
         //Inflate the About popup
@@ -414,7 +414,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void AddCapsule() {
+    private void AddCapsule() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         View capsuleLayout = inflater.inflate(R.layout.capsule_layout, new LinearLayout(getApplicationContext()), true);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
@@ -430,7 +430,7 @@ public class MainActivity extends ActionBarActivity {
         scrollView.scrollTo(0, scrollView.getBottom());
     }
 
-    public void Remove(View view) {
+    private void Remove(View view) {
         hideKeyboard();
 
         //Get the capsule and list
@@ -463,7 +463,7 @@ public class MainActivity extends ActionBarActivity {
         linearLayout.removeView(parent_view);
     }
 
-    public void removeAll() {
+    private void removeAll() {
         hideKeyboard();
 
         //Remove all capsules, starting from the bottom
@@ -476,7 +476,7 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void Calculate() {
+    private void Calculate() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
         EditText final_editText = (EditText)findViewById(R.id.final_mark);
         double final_mark = 0;
@@ -606,7 +606,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Rounds to two decimals
-    double roundTwoDecimals(double mark) {
+    private double roundTwoDecimals(double mark) {
         DecimalFormat twoDecimals = new DecimalFormat("#.##");
         return Double.valueOf(twoDecimals.format(mark));
     }
