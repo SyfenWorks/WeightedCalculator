@@ -92,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
         //Make a temporary save file
         try {
             //Get the cache directory and cached save file
-            File temp_save = new File(getCacheDir(), "temp_save.txt");
+            File temp_save = new File(getFilesDir(), "temp_save.txt");
 
             //If the file does not exist, create it
             if (!temp_save.exists()) {
@@ -192,7 +192,7 @@ public class MainActivity extends ActionBarActivity {
             //Reset the boolean to false
             onCreateCalled = false;
             //If there is no bundle or cached save, set defaults
-            File temp_save = new File(getCacheDir(), "temp_save.txt");
+            File temp_save = new File(getFilesDir(), "temp_save.txt");
             if (!temp_save.exists()) {
                 setDefaultCapsules();
             } else {
@@ -430,7 +430,7 @@ public class MainActivity extends ActionBarActivity {
         scrollView.scrollTo(0, scrollView.getBottom());
     }
 
-    private void Remove(View view) {
+    public void Remove(View view) {
         hideKeyboard();
 
         //Get the capsule and list
