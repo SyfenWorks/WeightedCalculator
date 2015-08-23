@@ -28,37 +28,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.net.Uri;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-//TODO delay to edit on focus
-//TODO about activity
 
 public class MainActivity extends ActionBarActivity {
     private final ArrayList<View> capsuleList = new ArrayList<>();
     private Toast error_toast;
+    private boolean onCreateCalled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Default two capsules
-        AddCapsule();
-        AddCapsule();
+        //Set true to signal onResume to load the cached save
+        //Putting the code in onResume into onCreate caused issues
+        onCreateCalled = true;
 
         //When the layout is touched, remove focus and keyboard
-        final RelativeLayout noFocus = (RelativeLayout) findViewById(R.id.noFocus);
-        noFocus.setOnClickListener(new View.OnClickListener() {
+        final RelativeLayout no_focus = (RelativeLayout) findViewById(R.id.no_focus);
+        no_focus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View current = getCurrentFocus();
-                if (current!=null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(current.getWindowToken(), 0);
-
-                    current.clearFocus();
-                }
+                hideKeyboard();
             }
         });
 
@@ -75,6 +72,202 @@ public class MainActivity extends ActionBarActivity {
         error_toast = Toast.makeText(this, "", Toast.LENGTH_LONG);
     }
 
+    ///////////////////////////////////////////////////////////////////
+
+    private void setDefaultCapsules() {
+        //Default two capsules
+        AddCapsule();
+        AddCapsule();
+        //Give focus to the first capsule label
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+        linearLayout.getChildAt(0).requestFocus();
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //Make a temporary save file
+        try {
+            //Get the cache directory and cached save file
+            File temp_save = new File(getFilesDir(), "temp_save.txt");
+
+            //If the file does not exist, create it
+            if (!temp_save.exists()) {
+                if (!temp_save.createNewFile()) {
+                    Log.d("Cached save error", "Could not create new file");
+                }
+            }
+            //If it does exist, delete it and create it again to wipe the data
+            else {
+                if (!temp_save.delete()) {
+                    Log.d("Cached save error", "Could not delete file");
+                }
+                if (!temp_save.createNewFile()) {
+                    Log.d("Cached save error", "Could not create new file");
+                }
+            }
+
+            //Create the appending file writer
+            BufferedWriter writer = new BufferedWriter(new FileWriter(temp_save, true /*appends*/));
+            //Write the number of capsules
+            writer.write(capsuleList.size() + "\n");
+
+            //Find the current focus
+            View current_focus = getCurrentFocus();
+            if (current_focus != null) {
+                //Obtain the focus' ID
+                Integer focus_Id = current_focus.getId();
+
+                //If the focus is on a capsule editText, the capsule number must be found
+                if (focus_Id == R.id.label || focus_Id == R.id.weight || focus_Id == R.id.mark || focus_Id == R.id.total) {
+                    //Get the capsule view, find the number
+                    View focus_parent_view = (View) current_focus.getParent().getParent().getParent();
+                    TextView capsule_number_view = (TextView) focus_parent_view.findViewById(R.id.capsule_number);
+                    String capsule_number = capsule_number_view.getText().toString();
+
+                    //Check which type of capsule editText the focus was on and record a focus code
+                    if (focus_Id == R.id.weight) {
+                        writer.write(capsule_number + " w\n");
+                    }
+                    else if (focus_Id == R.id.mark) {
+                        writer.write(capsule_number + " m\n");
+                    }
+                    else if (focus_Id == R.id.total) {
+                        writer.write(capsule_number + " t\n");
+                    }
+                    else {
+                        writer.write(capsule_number + " l\n");
+                    }
+                }
+                //Otherwise, the focus is the Final editText
+                else {
+                    writer.write("0\n");
+                }
+            }
+            //If null, record the focus as the Final editText
+            else {
+                writer.write("0\n");
+            }
+
+            //Record all capsule information
+            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+            for (int i = 0; i < capsuleList.size(); i++) {
+                //Find the capsule at i
+                LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(i);
+                //Record label
+                EditText temp_label = (EditText) temp_capsule.findViewById(R.id.label);
+                writer.write(temp_label.getText().toString() + "\n");
+                //Record weighting
+                EditText temp_weighting = (EditText) temp_capsule.findViewById(R.id.weight);
+                writer.write(temp_weighting.getText().toString() + "\n");
+                //Record mark
+                EditText temp_mark = (EditText) temp_capsule.findViewById(R.id.mark);
+                writer.write(temp_mark.getText().toString() + "\n");
+                //Record total
+                EditText temp_total = (EditText) temp_capsule.findViewById(R.id.total);
+                writer.write(temp_total.getText().toString() + "\n");
+            }
+
+            //Record final
+            EditText temp_final = (EditText) findViewById(R.id.final_mark);
+            writer.write(temp_final.getText().toString() + "\n");
+
+            //Close the writer
+            writer.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Only load the cached save if onCreate was called
+        if (onCreateCalled) {
+            //Reset the boolean to false
+            onCreateCalled = false;
+            //If there is no bundle or cached save, set defaults
+            File temp_save = new File(getFilesDir(), "temp_save.txt");
+            if (!temp_save.exists()) {
+                setDefaultCapsules();
+            } else {
+                //Otherwise, read the temporary save file
+                try {
+                    //Create the reader
+                    BufferedReader reader = new BufferedReader(new FileReader(temp_save));
+
+                    //Read in the number of capsules and the code that expresses the focused view
+                    int capsule_list_size = Integer.parseInt(reader.readLine());
+                    String current_focus_code = reader.readLine();
+
+                    //Loop through each capsule, populating its fields
+                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+                    for (int i = 0; i < capsule_list_size; i++) {
+                        //Add a capsule
+                        AddCapsule();
+                        //Find the capsule at i
+                        LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(i);
+
+                        //Read and add the label
+                        EditText temp_label = (EditText) temp_capsule.findViewById(R.id.label);
+                        temp_label.setText(reader.readLine());
+                        //Read and add the weighting
+                        EditText temp_weighting = (EditText) temp_capsule.findViewById(R.id.weight);
+                        temp_weighting.setText(reader.readLine());
+                        //Read and add the mark
+                        EditText temp_mark = (EditText) temp_capsule.findViewById(R.id.mark);
+                        temp_mark.setText(reader.readLine());
+                        //Read and add the total
+                        EditText temp_total = (EditText) temp_capsule.findViewById(R.id.total);
+                        temp_total.setText(reader.readLine());
+                    }
+
+                    //Read and add the final
+                    EditText temp_final = (EditText) findViewById(R.id.final_mark);
+                    temp_final.setText(reader.readLine());
+
+                    //Break up the focus code into two strings, a number and a letter
+                    String[] current_focus_code_split = current_focus_code.split(" ");
+                    //If there is no letter (2nd element of array), the focus is set to Final
+                    if (current_focus_code_split.length == 1) {
+                        findViewById(R.id.final_mark).requestFocus();
+                    }
+                    //Otherwise, find the correct capsule
+                    else {
+                        //Get the capsule number
+                        int capsule_number = Integer.parseInt(current_focus_code_split[0]);
+                        //Go to the capsule with that number
+                        LinearLayout temp_capsule = (LinearLayout) linearLayout.getChildAt(capsule_number - 1);
+
+                        //Set focus to the view specified by the focus code letter
+                        switch (current_focus_code_split[1]) {
+                            case "w":
+                                temp_capsule.findViewById(R.id.weight).requestFocus();
+                                break;
+                            case "m":
+                                temp_capsule.findViewById(R.id.mark).requestFocus();
+                                break;
+                            case "t":
+                                temp_capsule.findViewById(R.id.total).requestFocus();
+                                break;
+                            case "l":
+                                temp_capsule.findViewById(R.id.label).requestFocus();
+                                break;
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,23 +291,17 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_about:
                 About();
                 return true;
-            case R.id.action_exit:
-                finish();
+            case R.id.action_help:
+                Help();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
-    }
+    ///////////////////////////////////////////////////////////////////
 
-    void Reset() {
+    private void Reset() {
         ResetDialog resetDialog = new ResetDialog();
         resetDialog.show(getSupportFragmentManager(), "reset");
     }
@@ -130,10 +317,15 @@ public class MainActivity extends ActionBarActivity {
                    .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
-                           //Reset
-                           Intent intent = getActivity().getIntent();
-                           getActivity().finish();
-                           startActivity(intent);
+                           //Remove all capsules
+                           ((MainActivity) getActivity()).removeAll();
+
+                           //Add two capsules and set the default focus
+                           ((MainActivity) getActivity()).setDefaultCapsules();
+
+                           //Clear Final
+                           EditText final_editText = (EditText) getActivity().findViewById(R.id.final_mark);
+                           final_editText.setText(null);
                        }
                    })
                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -149,14 +341,41 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void About() {
+    private void Help() {
+        hideKeyboard();
+
+        //Inflate the Help popup
+        final View popup_view = getLayoutInflater().inflate(R.layout.help_popup, new LinearLayout(getApplicationContext()), true);
+        final PopupWindow help_popup = new PopupWindow(popup_view,
+                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        help_popup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accent)));
+        help_popup.setFocusable(true);
+        help_popup.showAtLocation(findViewById(R.id.no_focus), Gravity.CENTER, 0, 0);
+
+        //Listen for the Close button press to dismiss popup
+        Button btn_close = (Button)popup_view.findViewById(R.id.btn_close);
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                help_popup.dismiss();
+            }
+        });
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    private void About() {
+        hideKeyboard();
+
+        //Inflate the About popup
         final View popup_view = getLayoutInflater().inflate(R.layout.about_popup, new LinearLayout(getApplicationContext()), true);
         final PopupWindow about_popup = new PopupWindow(popup_view,
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        about_popup.setBackgroundDrawable(new ColorDrawable(R.color.accent));
+        about_popup.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accent)));
         about_popup.setFocusable(true);
-        about_popup.showAtLocation(findViewById(R.id.noFocus), Gravity.CENTER, 0, 0);
+        about_popup.showAtLocation(findViewById(R.id.no_focus), Gravity.CENTER, 0, 0);
 
+        //Listen for the Close button press to dismiss popup
         Button btn_close = (Button)popup_view.findViewById(R.id.btn_close);
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,11 +386,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void goToWebsite(View view) {
-        goToUrl ("https://syfenworks.blogspot.com");
+        goToUrl("https://syfenworks.blogspot.com");
     }
 
     public void goToTwitter(View view) {
-        goToUrl ("https://twitter.com/SyfenWorks");
+        goToUrl("https://twitter.com/SyfenWorks");
     }
 
     public void goToRate(View view) {
@@ -195,10 +414,10 @@ public class MainActivity extends ActionBarActivity {
 
     ///////////////////////////////////////////////////////////////////
 
-    void AddCapsule() {
+    private void AddCapsule() {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         View capsuleLayout = inflater.inflate(R.layout.capsule_layout, new LinearLayout(getApplicationContext()), true);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.marks_list);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
         linearLayout.addView(capsuleLayout);
 
         capsuleList.add(capsuleLayout);
@@ -206,15 +425,17 @@ public class MainActivity extends ActionBarActivity {
         textView.setText(String.valueOf(capsuleList.size()));
 
         //Scroll to bottom
-        ScrollView scrollView = (ScrollView)findViewById(R.id.marks_scroll);
+        capsuleList.get(capsuleList.size()-1).findViewById(R.id.weight).requestFocus();
+        final ScrollView scrollView = (ScrollView)findViewById(R.id.capsules_scroll);
         scrollView.scrollTo(0, scrollView.getBottom());
-        capsuleList.get(capsuleList.size()-1).requestFocus();
     }
 
     public void Remove(View view) {
+        hideKeyboard();
+
         //Get the capsule and list
         View parent_view = (View) view.getParent().getParent().getParent();
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.marks_list);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
 
         //Loop through following capsules and decrement number
         TextView textView = (TextView)parent_view.findViewById(R.id.capsule_number);
@@ -225,6 +446,15 @@ public class MainActivity extends ActionBarActivity {
             temp_textView.setText(Integer.toString(i));
         }
 
+        //Set focus to the capsule above the removed capsule (the removed capsule is at loop_start_index - 1)
+        if (loop_start_index != 1) {
+            linearLayout.getChildAt(loop_start_index - 2).findViewById(R.id.weight).requestFocus();
+        }
+        //If the first capsule is removed, try to set the focus to the capsule below
+        else if (capsuleList.size() > 1) {
+            linearLayout.getChildAt(loop_start_index).findViewById(R.id.weight).requestFocus();
+        }
+
         //Remove from capsule list
         int index = (Integer.parseInt(textView.getText().toString()) - 1);
         capsuleList.remove(index);
@@ -233,17 +463,31 @@ public class MainActivity extends ActionBarActivity {
         linearLayout.removeView(parent_view);
     }
 
-    void Calculate() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.marks_list);
-        EditText final_editText = (EditText)findViewById(R.id.finalMark);
+    private void removeAll() {
+        hideKeyboard();
+
+        //Remove all capsules, starting from the bottom
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+        for (int i = capsuleList.size() - 1; i >= 0; i--) {
+            LinearLayout capsule_layout = (LinearLayout) linearLayout.getChildAt(i);
+            Remove(capsule_layout.findViewById(R.id.remove));
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    private void Calculate() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.capsules);
+        EditText final_editText = (EditText)findViewById(R.id.final_mark);
         double final_mark = 0;
         double total_weight = 0;
         boolean reverse_calculation = false;
         double reverse_final = 0;
         double reverse_total = 100;
+        boolean reverse_total_default = true;
         double reverse_weighting = 0;
         EditText reverse_mark_editText = null;
-        EditText reverse_mark_editTotal = null;
+        EditText reverse_total_editText = null;
 
         //Loop through each capsule
         //Get total weight
@@ -309,14 +553,14 @@ public class MainActivity extends ActionBarActivity {
                     reverse_mark_editText = temp_mark;
 
                     EditText temp_total = (EditText)temp_layout.findViewById(R.id.total);
-                    reverse_mark_editTotal = temp_total;
+                    reverse_total_editText = temp_total;
 
                     //Check if total is filled in
                     if (temp_total.getText().toString().length() > 0
                             && !temp_total.getText().toString().equals(".")) {
                         //Change reverse total from default and record the weighting
+                        reverse_total_default = false;
                         double total_value = Double.parseDouble(temp_total.getText().toString());
-
 
                         if (total_value > 0) {
                             reverse_total = total_value;
@@ -329,8 +573,7 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
 
-                    double weighting_value = Double.parseDouble(temp_weighting.getText().toString());
-                    reverse_weighting = weighting_value;
+                    reverse_weighting = Double.parseDouble(temp_weighting.getText().toString());
                 }
                 else {
                     error_toast.setText(R.string.mark_final_alert_toast);
@@ -341,16 +584,20 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        //Display rounded final mark or reverse calculation mark
+        //Display rounded reverse calculation mark
         if (reverse_calculation) {
             double reverse_mark = (reverse_final / 100) - (final_mark);
             reverse_mark = (reverse_mark / (reverse_weighting / total_weight)) * reverse_total;
             reverse_mark = roundTwoDecimals(reverse_mark);
 
             reverse_mark_editText.setText(Double.toString(reverse_mark));
-            reverse_mark_editTotal.setText(Double.toString(reverse_total));
+            //Set the total to 100 if it is not filled in
+            if (reverse_total_default) {
+                reverse_total_editText.setText(Double.toString(reverse_total));
+            }
             reverse_mark_editText.requestFocus();
         }
+        //Display rounded final mark
         else {
             final_mark = final_mark * 100;
             final_mark = roundTwoDecimals(final_mark);
@@ -358,9 +605,20 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    double roundTwoDecimals(double mark) {
-        //Rounds to two decimals
+    //Rounds to two decimals
+    private double roundTwoDecimals(double mark) {
         DecimalFormat twoDecimals = new DecimalFormat("#.##");
         return Double.valueOf(twoDecimals.format(mark));
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+    //Hides the soft keyboard
+    private void hideKeyboard() {
+        View current = getCurrentFocus();
+        if (current != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(current.getWindowToken(), 0);
+        }
     }
 }

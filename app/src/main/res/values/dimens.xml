@@ -1,6 +1,33 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
+
+    <dimen name="calculate_top_margin">13dp</dimen>
+    <dimen name="calculate_bottom_margin">8dp</dimen>
+    <dimen name="calculate_shadow_padding">5dp</dimen>
+
     <dimen name="capsule_number_padding">3dp</dimen>
+    <dimen name="capsule_label_top_padding">1dp</dimen>
+    <dimen name="capsule_label_side_padding">10dp</dimen>
+    <dimen name="capsule_side_padding">3dp</dimen>
+    <dimen name="capsule_slash_padding">3dp</dimen>
+
+    <dimen name="capsule_remove_top_padding">1dp</dimen>
+    <dimen name="capsule_remove_bottom_padding">2dp</dimen>
+    <dimen name="capsule_remove_left_padding">12dp</dimen>
+    <dimen name="capsule_remove_right_padding">6dp</dimen>
+
+    <dimen name="capsule_input_top_padding">1dp</dimen>
+    <dimen name="capsule_input_bottom_padding">6dp</dimen>
+
+    <dimen name="help_title_top_padding">25dp</dimen>
+
+    <dimen name="about_title_top_padding">15dp</dimen>
+    <dimen name="about_version_top_padding">10dp</dimen>
+    <dimen name="about_blurb_top_padding">20dp</dimen>
+    <dimen name="about_filler_padding">30dp</dimen>
+    <dimen name="about_side_padding">10dp</dimen>
+    <dimen name="about_copyright_vertical_padding">3dp</dimen>
+    <dimen name="about_bottom_padding">2dp</dimen>
 </resources>
