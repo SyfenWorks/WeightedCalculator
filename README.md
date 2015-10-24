@@ -32,9 +32,9 @@ Auto-save:
 Your marks will automatically be saved when you exit the app.
 Press Reset to clear all marks.
 
-Adapts:
+Total Weighting:
 
-The total % weightings do not have to add up to 100.
+The combined weightings do not have to add up to 100.
 Weighted Calculator will calculate your final mark based on how much weighting
 the current marks have received.
 
