@@ -7,32 +7,33 @@ A simple Android application to perform calculations with weighted averages.
 
 Operating Instructions
 ----------------------
-* Calculate a Weighted Average:
+Calculate a Weighted Average:
+
 Fill in all fields, but leave the final mark empty,
 and hit the Calculate button to get a weighted average.
 
-* Reverse Calculate a Mark:
+Reverse Calculate a Mark:
 Fill in all fields, including the final mark, and leave one Mark field empty.
 Hit the Calculate button to get the mark you need for the final average you want.
 
-* Labels:
+Labels:
 Labels in the top-left corner of each mark allows you to keep organized
 and keep track of where your grades have come from.
 
-* Add and Remove:
+Add and Remove:
 You can add as many marks as you want by tapping the plus button in the action bar.
 You can remove marks by tapping the garbage can in the top-right corner of each mark.
 
-* Auto-save:
+Auto-save:
 Your marks will automatically be saved when you exit the app.
 Press Reset to clear all marks.
 
-* Adapts:
+Adapts:
 The total % weightings do not have to add up to 100.
 Weighted Calculator will calculate your final mark based on how much weighting
 the current marks have received.
 
-* Precision:
+Precision:
 You may input as many decimal places as you would like,
 however, all calculations are rounded to two decimal places.
 
