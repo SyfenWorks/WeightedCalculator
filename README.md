@@ -43,15 +43,6 @@ Precision:
 You may input as many decimal places as you would like,
 however, all calculations are rounded to two decimal places.
 
-Bugs
-----
-- Scroll position is not saved
-- Keyboard status is not saved on orientation change
-- Comma decimal separators do not work
-- "Remove" button is hard to click
-- Tapping on background does not remove focus
-- Popups destroyed on orientation change
-
 Works in Progress
 -----------------
 - Saving and loading multiple files
