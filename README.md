@@ -56,4 +56,4 @@ Works in Progress
 - About and Help screens as separate activities
 - Selection of capsules, allow for duplication
 
-Copyright Syfen Works 2015.
+Copyright Brian Tran 2016.
