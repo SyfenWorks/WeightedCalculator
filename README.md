@@ -46,7 +46,7 @@ Precision:
 You may input as many decimal places as you would like,
 however, all calculations are rounded to two decimal places.
 
-Works in Progress
+Work in Progress
 -----------------
 - Saving and loading multiple files
 - Optimization for larger screens
@@ -55,5 +55,3 @@ Works in Progress
 - Material design plus button
 - About and Help screens as separate activities
 - Selection of capsules, allow for duplication
-
-Copyright Brian Tran 2016.
