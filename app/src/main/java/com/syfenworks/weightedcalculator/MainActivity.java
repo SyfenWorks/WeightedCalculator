@@ -8,7 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private final ArrayList<View> capsuleList = new ArrayList<>();
     private Toast error_toast;
     private boolean onCreateCalled = false;
@@ -386,11 +386,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void goToWebsite(View view) {
-        goToUrl("https://syfenworks.blogspot.com");
+        goToUrl("http://briantran.me");
     }
 
-    public void goToTwitter(View view) {
-        goToUrl("https://twitter.com/SyfenWorks");
+    public void goToGithub(View view) {
+        goToUrl("https://github.com/TranBrian10/WeightedCalculator");
     }
 
     public void goToRate(View view) {
