@@ -21,13 +21,11 @@
     <dimen name="capsule_input_top_padding">1dp</dimen>
     <dimen name="capsule_input_bottom_padding">6dp</dimen>
 
-    <dimen name="help_title_top_padding">25dp</dimen>
+    <dimen name="popup_side_padding">20dp</dimen>
+    <dimen name="popup_title_top_padding">40dp</dimen>
+    <dimen name="popup_blurb_top_padding">20dp</dimen>
+    <dimen name="popup_blurb_bottom_padding">30dp</dimen>
 
-    <dimen name="about_title_top_padding">15dp</dimen>
     <dimen name="about_version_top_padding">10dp</dimen>
-    <dimen name="about_blurb_top_padding">20dp</dimen>
-    <dimen name="about_filler_padding">30dp</dimen>
-    <dimen name="about_side_padding">10dp</dimen>
     <dimen name="about_copyright_vertical_padding">3dp</dimen>
-    <dimen name="about_bottom_padding">2dp</dimen>
 </resources>

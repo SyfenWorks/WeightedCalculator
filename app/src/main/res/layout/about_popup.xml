@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,15 +12,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:background="@color/accent"
-        android:id="@+id/about_scroll"
-        android:layout_above="@+id/close_layout">
+        android:id="@+id/about_scroll">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingRight="@dimen/about_side_padding"
-            android:paddingLeft="@dimen/about_side_padding">
+            android:paddingRight="@dimen/popup_side_padding"
+            android:paddingLeft="@dimen/popup_side_padding">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -29,13 +28,14 @@
                 android:text="@string/about_title"
                 android:id="@+id/about_title"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/about_title_top_padding"
+                android:paddingTop="@dimen/popup_title_top_padding"
                 android:gravity="center"
                 android:textColor="@android:color/white"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/about_title"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/about_version"
                 android:id="@+id/about_version"
@@ -47,19 +47,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/about_version"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/about_blurb"
                 android:id="@+id/about_blurb"
                 android:layout_gravity="center_horizontal"
-                android:paddingTop="@dimen/about_blurb_top_padding"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/about_filler_padding"/>
+                android:paddingTop="@dimen/popup_blurb_top_padding"
+                android:paddingBottom="@dimen/popup_blurb_bottom_padding"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/about_blurb"
                 android:text="@string/website"
                 android:id="@+id/btn_website"
                 android:layout_gravity="center_horizontal"
@@ -69,8 +68,9 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/btn_website"
                 android:text="@string/github"
-                android:id="@+id/btn_twitter"
+                android:id="@+id/btn_github"
                 android:layout_gravity="center_horizontal"
                 android:onClick="goToGithub"
                 android:textColor="@android:color/white"/>
@@ -78,45 +78,37 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/btn_github"
                 android:text="@string/rate"
                 android:id="@+id/btn_rate"
                 android:layout_gravity="center_horizontal"
                 android:onClick="goToRate"
                 android:textColor="@android:color/white"/>
-        </LinearLayout>
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_rate"
+                android:text="@string/close"
+                android:id="@+id/btn_close"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_close"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/about_copyright"
+                android:id="@+id/copyright"
+                android:paddingTop="@dimen/about_copyright_vertical_padding"
+                android:paddingBottom="@dimen/about_copyright_vertical_padding"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"/>
+        </RelativeLayout>
 
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/accent"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/close_layout"
-        android:paddingTop="@dimen/about_bottom_padding"
-        android:paddingBottom="@dimen/about_bottom_padding">
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/close"
-            android:id="@+id/btn_close"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/about_copyright"
-            android:id="@+id/copyright"
-            android:paddingTop="@dimen/about_copyright_vertical_padding"
-            android:paddingBottom="@dimen/about_copyright_vertical_padding"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/btn_close"
-            android:textSize="12sp"/>
-    </RelativeLayout>
-
-</RelativeLayout>
+</LinearLayout>
