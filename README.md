@@ -2,7 +2,7 @@
 
 Install from the Google Play store:
 
-https://play.google.com/store/apps/details?id=com.syfenworks.weightedcalculator&hl=en
+https://play.google.com/store/apps/details?id=com.syfenworks.weightedcalculator
 
 Description
 -----------
