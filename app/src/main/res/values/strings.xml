@@ -51,7 +51,9 @@
     <string name="mark_final_alert_toast">Please fill in all marks or the final grade</string>
     <string name="total_alert_toast">Please fill in all totals</string>
     <string name="total_zero_toast">Totals cannot be zero</string>
+    <string name="double_parsing_error_toast">Could not parse numbers. Your locale may not be supported.</string>
+    <string name="decimal_separator_error_toast">Please use only one decimal separator in a number</string>
 
     <!-- Internal -->
-    <string name="allowable_digits">0123456789.</string>
+    <string name="allowable_digits">0123456789.,</string>
 </resources>

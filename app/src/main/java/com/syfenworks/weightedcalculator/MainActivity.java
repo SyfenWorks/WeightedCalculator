@@ -482,10 +482,10 @@ public class MainActivity extends AppCompatActivity {
         double final_mark = 0;
         double total_weight = 0;
         boolean reverse_calculation = false;
-        double reverse_final = 0;
+        Double reverse_final = new Double(0);
         double reverse_total = 100;
         boolean reverse_total_default = true;
-        double reverse_weighting = 0;
+        Double reverse_weighting = new Double(0);
         EditText reverse_mark_editText = null;
         EditText reverse_total_editText = null;
 
@@ -497,7 +497,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (temp_weighting.getText().toString().length() > 0
                     && !temp_weighting.getText().toString().equals(".")) {
-                double weighting_value = Double.parseDouble(String.valueOf(temp_weighting.getText()));
+                Double weighting_value = edittextToDouble(temp_weighting);
+                if (weighting_value == null) return;
+
                 total_weight += weighting_value;
             }
             else {
@@ -521,9 +523,15 @@ public class MainActivity extends AppCompatActivity {
                 //Check if total is filled in
                 if (temp_total.getText().toString().length() > 0
                         && !temp_total.getText().toString().equals(".")) {
-                    double weighting_value = Double.parseDouble(temp_weighting.getText().toString());//TODO: crash
-                    double mark_value = Double.parseDouble(temp_mark.getText().toString());
-                    double total_value = Double.parseDouble(temp_total.getText().toString());
+                    Double weighting_value = edittextToDouble(temp_weighting);
+                    if (weighting_value == null) return;
+
+                    Double mark_value = edittextToDouble(temp_mark);
+                    if (mark_value == null) return;
+
+                    Double total_value = edittextToDouble(temp_total);
+                    if (total_value == null) return;
+
 
                     if (total_value > 0) {
                         final_mark += (weighting_value / total_weight) * (mark_value / total_value);
@@ -549,8 +557,9 @@ public class MainActivity extends AppCompatActivity {
                         && !final_editText.getText().toString().equals(".")
                         && !reverse_calculation) {
                     reverse_calculation = true;
-                    reverse_final = Double.parseDouble(final_editText.getText().toString());
                     reverse_mark_editText = temp_mark;
+                    reverse_final = edittextToDouble(final_editText);
+                    if (reverse_final == null) return;
 
                     EditText temp_total = temp_layout.findViewById(R.id.total);
                     reverse_total_editText = temp_total;
@@ -560,7 +569,8 @@ public class MainActivity extends AppCompatActivity {
                             && !temp_total.getText().toString().equals(".")) {
                         //Change reverse total from default and record the weighting
                         reverse_total_default = false;
-                        double total_value = Double.parseDouble(temp_total.getText().toString());
+                        Double total_value = edittextToDouble(temp_total);
+                        if (total_value == null) return;
 
                         if (total_value > 0) {
                             reverse_total = total_value;
@@ -573,7 +583,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    reverse_weighting = Double.parseDouble(temp_weighting.getText().toString());
+                    reverse_weighting = edittextToDouble(temp_weighting);
+                    if (reverse_weighting == null) return;
                 }
                 else {
                     error_toast.setText(R.string.mark_final_alert_toast);
@@ -589,18 +600,58 @@ public class MainActivity extends AppCompatActivity {
             double reverse_mark = (reverse_final / 100) - (final_mark);
             reverse_mark = (reverse_mark / (reverse_weighting / total_weight)) * reverse_total;
 
-            reverse_mark_editText.setText(String.format(Locale.getDefault(),"%.2f", reverse_mark));
-            //Set the total to 100 if it is not filled in
-            if (reverse_total_default) {
-                reverse_total_editText.setText(String.format(Locale.getDefault(),"%.2f", reverse_total));
+            try {
+                reverse_mark_editText.setText(String.format(Locale.getDefault(), "%.2f", reverse_mark));
+                //Set the total to 100 if it is not filled in
+                if (reverse_total_default) {
+                    reverse_total_editText.setText(String.format(Locale.getDefault(), "%.2f", reverse_total));
+                }
             }
+            catch (NullPointerException e) {
+                error_toast.setText(R.string.double_parsing_error_toast);
+                error_toast.show();
+            }
+
             reverse_mark_editText.requestFocus();
         }
         //Display rounded final mark
         else {
             final_mark = final_mark * 100;
-            final_editText.setText(String.format(Locale.getDefault(),"%.2f", final_mark));
+
+            try {
+                final_editText.setText(String.format(Locale.getDefault(), "%.2f", final_mark));
+            }
+            catch (NullPointerException e) {
+                error_toast.setText(R.string.double_parsing_error_toast);
+                error_toast.show();
+            }
         }
+    }
+
+    //Converts a string to a positive double, taking into account the user's locale
+    //Returns null if error
+    private Double edittextToDouble(EditText et) {
+        String string = et.getText().toString();
+        String dotString = string.replaceAll(",", ".");
+
+        //Count the number of decimal separators in the string
+        int count = 0;
+        for (int i = 0; i < dotString.length(); i++) {
+            if (dotString.charAt(i) == '.') {
+                count++;
+            }
+        }
+
+        if (count > 1) {
+            et.requestFocus();
+
+            error_toast.setText(R.string.decimal_separator_error_toast);
+            error_toast.show();
+
+            return null;
+        }
+
+        return Double.parseDouble(dotString);
     }
 
     ///////////////////////////////////////////////////////////////////
