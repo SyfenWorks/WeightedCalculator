@@ -52,4 +52,6 @@
     <string name="total_alert_toast">Please fill in all totals</string>
     <string name="total_zero_toast">Totals cannot be zero</string>
 
+    <!-- Internal -->
+    <string name="allowable_digits">0123456789.</string>
 </resources>

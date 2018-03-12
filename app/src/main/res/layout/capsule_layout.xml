@@ -18,7 +18,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/capsule_number"
             android:textColor="@android:color/white"
-            android:paddingLeft="@dimen/capsule_number_padding"/>
+            android:paddingLeft="@dimen/capsule_number_padding"
+            android:paddingRight="@dimen/capsule_number_padding"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -30,11 +31,13 @@
             android:hint="@string/label"
             android:singleLine="true"
             android:maxLength="15"
-            android:inputType="textCapWords"
+            android:inputType="textCapSentences"
             android:background="#00000000"
             android:paddingTop="@dimen/capsule_label_top_padding"
             android:paddingLeft="@dimen/capsule_label_side_padding"
-            android:paddingRight="@dimen/capsule_label_side_padding"/>
+            android:paddingStart="@dimen/capsule_label_side_padding"
+            android:paddingRight="@dimen/capsule_label_side_padding"
+            android:paddingEnd="@dimen/capsule_label_side_padding"/>
 
         <View
             android:layout_width="0dp"
@@ -53,7 +56,9 @@
             android:paddingTop="@dimen/capsule_remove_top_padding"
             android:paddingBottom="@dimen/capsule_remove_bottom_padding"
             android:paddingLeft="@dimen/capsule_remove_left_padding"
-            android:paddingRight="@dimen/capsule_remove_right_padding"/>
+            android:paddingStart="@dimen/capsule_remove_left_padding"
+            android:paddingRight="@dimen/capsule_remove_right_padding"
+            android:paddingEnd="@dimen/capsule_remove_right_padding"/>
 
     </LinearLayout>
 
@@ -72,13 +77,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:digits="0123456789."
+            android:digits="@string/allowable_digits"
             android:ems="10"
             android:id="@+id/weight"
             android:hint="@string/percent_weight"
             android:textIsSelectable="false"
             android:layout_weight="0.28"
-            android:nextFocusDown="@+id/mark"
+            android:nextFocusForward="@id/mark"
             android:textSize="17sp"/>
 
         <TextView
@@ -94,12 +99,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:digits="0123456789."
+            android:digits="@string/allowable_digits"
             android:ems="10"
             android:id="@+id/mark"
             android:hint="@string/student_mark"
             android:layout_weight="0.27"
-            android:nextFocusDown="@+id/total"
+            android:nextFocusForward="@id/total"
             android:textSize="17sp"/>
 
         <TextView
@@ -118,7 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:digits="0123456789."
+            android:digits="@string/allowable_digits"
             android:ems="10"
             android:id="@+id/total"
             android:hint="@string/total_marks"
