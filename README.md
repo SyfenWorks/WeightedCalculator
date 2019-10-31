@@ -2,6 +2,12 @@
 
 Install from the [Google Play store](https://play.google.com/store/apps/details?id=com.syfenworks.weightedcalculator).
 
+Version 1.0.4.
+
+Min SDK: 14
+
+Target SDK: 28
+
 Description
 -----------
 A simple Android application to perform calculations with weighted averages.
