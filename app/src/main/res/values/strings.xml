@@ -22,7 +22,7 @@
 
     <string name="about">About</string>
     <string name="about_title">Weighted Calculator\n by TranBrian10</string>
-    <string name="about_version">Version 1.0.3</string>
+    <string name="about_version">Version 1.0.4</string>
     <string name="about_blurb">Thank you for downloading Weighted Calculator!
         The source code is available at the GitHub link below.\n
         \nWith the Weighted Calculator, you can calculate a weighted average or calculate the mark you need for the final grade you want.</string>
@@ -30,7 +30,7 @@
     <string name="github">GitHub Repository</string>
     <string name="rate">Rate this app</string>
     <string name="close">Close</string>
-    <string name="about_copyright">Copyright © 2018</string>
+    <string name="about_copyright">Copyright © 2019</string>
 
     <string name="help">Help</string>
     <string name="help_content"><b>Calculate a Weighted Average</b>

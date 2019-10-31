@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             View current_focus = getCurrentFocus();
             if (current_focus != null) {
                 //Obtain the focus' ID
-                Integer focus_Id = current_focus.getId();
+                int focus_Id = current_focus.getId();
 
                 //If the focus is on a capsule editText, the capsule number must be found
                 if (focus_Id == R.id.label || focus_Id == R.id.weight || focus_Id == R.id.mark || focus_Id == R.id.total) {
@@ -482,10 +482,10 @@ public class MainActivity extends AppCompatActivity {
         double final_mark = 0;
         double total_weight = 0;
         boolean reverse_calculation = false;
-        Double reverse_final = new Double(0);
+        Double reverse_final = (double) 0;
         double reverse_total = 100;
         boolean reverse_total_default = true;
-        Double reverse_weighting = new Double(0);
+        Double reverse_weighting = (double) 0;
         EditText reverse_mark_editText = null;
         EditText reverse_total_editText = null;
 
