@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,6 +34,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private final ArrayList<View> capsuleList = new ArrayList<>();
@@ -306,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         resetDialog.show(getSupportFragmentManager(), "reset");
     }
 
-    public static class ResetDialog extends android.support.v4.app.DialogFragment {
+    public static class ResetDialog extends DialogFragment {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
