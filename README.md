@@ -6,7 +6,7 @@ Version 1.0.4.
 
 Min SDK: 14
 
-Target SDK: 28
+Target SDK: 29
 
 Description
 -----------
@@ -50,8 +50,9 @@ Work in Progress
 -----------------
 - Saving and loading multiple files
 - Optimization for larger screens
-- Logo revamp (shadows fade out, lone pixel at the bottom left)
+- Logo revamp (shadows fade out, lone pixel at the bottom left, new icon guidelines)
 - Settings (layout animations, auto-save, adaptive weighting, dark mode)
 - Material design plus button
 - About and Help screens as separate activities
 - Selection of capsules, allow for duplication
+- Highlight unfilled capsule fields
