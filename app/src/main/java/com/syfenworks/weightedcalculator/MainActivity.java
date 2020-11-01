@@ -280,13 +280,16 @@ public class MainActivity extends AppCompatActivity {
         if (itemId == R.id.action_add) {
             AddCapsule();
             return true;
-        } else if (itemId == R.id.action_reset) {
+        }
+        else if (itemId == R.id.action_reset) {
             Reset();
             return true;
-        } else if (itemId == R.id.action_about) {
+        }
+        else if (itemId == R.id.action_about) {
             About();
             return true;
-        } else if (itemId == R.id.action_help) {
+        }
+        else if (itemId == R.id.action_help) {
             Help();
             return true;
         }
