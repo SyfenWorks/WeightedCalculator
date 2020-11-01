@@ -499,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (temp_weighting.getText().toString().length() > 0
                     && !temp_weighting.getText().toString().equals(".")) {
-                Double weighting_value = edittextToDouble(temp_weighting);
+                Double weighting_value = editTextToDouble(temp_weighting);
                 if (weighting_value == null) return;
 
                 total_weight += weighting_value;
@@ -525,13 +525,13 @@ public class MainActivity extends AppCompatActivity {
                 // Check if total is filled in
                 if (temp_total.getText().toString().length() > 0
                         && !temp_total.getText().toString().equals(".")) {
-                    Double weighting_value = edittextToDouble(temp_weighting);
+                    Double weighting_value = editTextToDouble(temp_weighting);
                     if (weighting_value == null) return;
 
-                    Double mark_value = edittextToDouble(temp_mark);
+                    Double mark_value = editTextToDouble(temp_mark);
                     if (mark_value == null) return;
 
-                    Double total_value = edittextToDouble(temp_total);
+                    Double total_value = editTextToDouble(temp_total);
                     if (total_value == null) return;
 
 
@@ -560,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
                         && !reverse_calculation) {
                     reverse_calculation = true;
                     reverse_mark_editText = temp_mark;
-                    reverse_final = edittextToDouble(final_editText);
+                    reverse_final = editTextToDouble(final_editText);
                     if (reverse_final == null) return;
 
                     EditText temp_total = temp_layout.findViewById(R.id.total);
@@ -571,7 +571,7 @@ public class MainActivity extends AppCompatActivity {
                             && !temp_total.getText().toString().equals(".")) {
                         // Change reverse total from default and record the weighting
                         reverse_total_default = false;
-                        Double total_value = edittextToDouble(temp_total);
+                        Double total_value = editTextToDouble(temp_total);
                         if (total_value == null) return;
 
                         if (total_value > 0) {
@@ -585,7 +585,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    reverse_weighting = edittextToDouble(temp_weighting);
+                    reverse_weighting = editTextToDouble(temp_weighting);
                     if (reverse_weighting == null) return;
                 }
                 else {
@@ -632,7 +632,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Converts a string to a positive double, taking into account the user's locale
     // Returns null if error
-    private Double edittextToDouble(EditText et) {
+    private Double editTextToDouble(EditText et) {
         String string = et.getText().toString();
         String dotString = string.replaceAll(",", ".");
 
