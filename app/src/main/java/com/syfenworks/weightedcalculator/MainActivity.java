@@ -97,19 +97,14 @@ public class MainActivity extends AppCompatActivity {
             File temp_save = new File(getFilesDir(), "temp_save.txt");
 
             // If the file does not exist, create it
-            if (!temp_save.exists()) {
-                if (!temp_save.createNewFile()) {
-                    Log.d("Cached save error", "Could not create new file");
-                }
-            }
-            // If it does exist, delete it and create it again to wipe the data
-            else {
+            // Otherwise, delete the file and create it again to wipe previous data
+            if (temp_save.exists()) {
                 if (!temp_save.delete()) {
                     Log.d("Cached save error", "Could not delete file");
                 }
-                if (!temp_save.createNewFile()) {
-                    Log.d("Cached save error", "Could not create new file");
-                }
+            }
+            if (!temp_save.createNewFile()) {
+                Log.d("Cached save error", "Could not create new file");
             }
 
             // Create the appending file writer
@@ -280,22 +275,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                AddCapsule();
-                return true;
-            case R.id.action_reset:
-                Reset();
-                return true;
-            case R.id.action_about:
-                About();
-                return true;
-            case R.id.action_help:
-                Help();
-                return true;
+        // Handle action bar item clicks here
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_add) {
+            AddCapsule();
+            return true;
+        } else if (itemId == R.id.action_reset) {
+            Reset();
+            return true;
+        } else if (itemId == R.id.action_about) {
+            About();
+            return true;
+        } else if (itemId == R.id.action_help) {
+            Help();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
