@@ -2,7 +2,7 @@
 
 Install from the [Google Play store](https://play.google.com/store/apps/details?id=com.syfenworks.weightedcalculator).
 
-Version 1.0.4.
+Version 1.0.5
 
 Min SDK: 14
 
